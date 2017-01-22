@@ -149,7 +149,13 @@ void loop() {
         mpu.dmpGetQuaternion(&q, fifoBuffer);
         mpu.dmpGetGravity(&gravity, &q);
         mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
+<<<<<<< HEAD
         Serial.println(ypr[1],5);
+=======
+        Serial.print(ypr[1], 5);
+        Serial.print("\t");
+        Serial.println(millis());
+>>>>>>> origin/master
 
         // blink LED to indicate activity
         blinkState = !blinkState;
