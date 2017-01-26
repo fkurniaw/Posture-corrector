@@ -50,21 +50,86 @@ void setup() {
     // verify connection
     Serial.println("Testing device connections...");
     Serial.println(mpu.testConnection() ? "MPU6050 connection successful" : "MPU6050 connection failed");
-
-    // use the code below to change accel/gyro offset values
-    mpu.setXGyroOffset(0);
-    mpu.setYGyroOffset(0);
-    mpu.setZGyroOffset(0);
-    mpu.setXAccelOffset(0);
-    mpu.setYAccelOffset(0); 
-    mpu.setZAccelOffset(0);
-
+    Serial.println("Checking to see if original offsets are somewhat OK...");
+    delay(500);
+    // use the code below to change accel/gyro offset values; might want to change to let it run one iteration to see if current calibration is acceptable so you don't waste too much time
+    counter = 0;
+    while(counter < sampleSize){
+      
+      mpu.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
+      aax = aax+ax;
+      aay = aay+ay;
+      aaz = aaz+az;
+      agx = agx+gx;
+      agy = agy+gy;
+      agz = agz+gz;
+      
+      Serial.print("a/g:\t");
+      Serial.print(ax); Serial.print("\t\t");
+      Serial.print(ay); Serial.print("\t\t");
+      Serial.print(az); Serial.print("\t\t");
+      Serial.print(gx); Serial.print("\t\t");
+      Serial.print(gy); Serial.print("\t\t");
+      Serial.println(gz);
+      counter++;
+    }
+    
+    dax = aax/sampleSize;
+    day = aay/sampleSize;
+    daz = aaz/sampleSize -16384;
+    dgx = agx/sampleSize;
+    dgy = agy/sampleSize;
+    dgz = agz/sampleSize;
+      
+    if(abs(dax)<100 && abs(day)<100 && abs(daz)<100 && abs(dgx)<30 && abs(dgy)<30  && abs(dgz)<30 )
+    {
+      oax = mpu.getXAccelOffset(); oay = mpu.getYAccelOffset(); oaz = mpu.getZAccelOffset();
+      ogx = mpu.getXGyroOffset(); ogy = mpu.getYGyroOffset(); ogz = mpu.getZGyroOffset(); 
+      Serial.println("Original offsets were OK. They are as follows:");
+      Serial.print("a/g:\t");
+      Serial.print(oax); Serial.print("\t\t");
+      Serial.print(oay); Serial.print("\t\t");
+      Serial.print(oaz); Serial.print("\t\t");
+      Serial.print(ogx); Serial.print("\t\t");
+      Serial.print(ogy); Serial.print("\t\t");
+      Serial.println(ogz);
+      Serial.println("\n");
+      
+      Serial.println("The differences were:");
+      Serial.print("a/g:\t");
+      Serial.print(dax); Serial.print("\t\t");
+      Serial.print(day); Serial.print("\t\t");
+      Serial.print(daz); Serial.print("\t\t");
+      Serial.print(dgx); Serial.print("\t\t");
+      Serial.print(dgy); Serial.print("\t\t");
+      Serial.println(dgz);
+      Serial.println("\n");
+      delay(1000);
+    }    
+    else
+    {        
+      Serial.println("Lmao horrible offsets. Resetting...");
+      mpu.setXGyroOffset(0);
+      mpu.setYGyroOffset(0);
+      mpu.setZGyroOffset(0);
+      mpu.setXAccelOffset(0);
+      mpu.setYAccelOffset(0); 
+      mpu.setZAccelOffset(0);
+    }
+    
+    //reset differences and averages
+    dax = 0;   day = 0;   daz = 0;
+    dgx = 0;   dgy = 0;   dgz = 0;
+    
+    aax = 0;   aay = 0;   aaz = 0;
+    agx = 0;   agy = 0;   agz = 0;
+    
     // configure Arduino LED for
     pinMode(LED_PIN, OUTPUT);
 }
 
 void loop() {
-    Serial.print("Running iteration:\t"); Serial.println(iteration);
+    Serial.print("Running iteration:\t"); Serial.println(iteration); Serial.print("\n");
     delay(2500);
     counter = 0;
     while (counter < sampleSize)
@@ -87,8 +152,8 @@ void loop() {
       Serial.print(gy); Serial.print("\t\t");
       Serial.println(gz);
 
-            // blink LED to indicate activity
-      blinkState = !blinkState;
+            // blink LED to indicate activity; seems too fast so I reduced the rate of changing blinkState
+      if(counter%10 == 0) blinkState = !blinkState;
       digitalWrite(LED_PIN, blinkState);
     }
 
@@ -109,9 +174,8 @@ void loop() {
       Serial.println(dgz);
       Serial.print("\n");
       
-
-    if( dax<15 && dax>-15 && day<15 && day>-15 && daz<15 && daz>-15 && 
-        dgx<3 && dgx>-3 && dgy<3 && dgy>-3 && dgx<3 && dgz>-3 || iteration > 25)
+    // if calibrated 25 times or differences from last iteration to current < threshold, stop calibration
+    if(abs(dax)<15 && abs(day)<15 && abs(daz)<15 && abs(dgx)<3 && abs(dgy)<3  && abs(dgz)<3 || iteration > 25)  
     {
       Serial.println("Calibration complete. Targets met using the following offsets:");
       Serial.print("a/g:\t");
