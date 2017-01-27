@@ -81,10 +81,10 @@ void setup() {
     dgy = agy/sampleSize;
     dgz = agz/sampleSize;
       
-    if(abs(dax)<100 && abs(day)<100 && abs(daz)<100 && abs(dgx)<30 && abs(dgy)<30  && abs(dgz)<30 )
+    if(abs(dax)<1000 && abs(day)<1000 && abs(daz)<1000 && abs(dgx)<60 && abs(dgy)<60  && abs(dgz)<60 )
     {
-      oax = mpu.getXAccelOffset(); oay = mpu.getYAccelOffset(); oaz = mpu.getZAccelOffset();
-      ogx = mpu.getXGyroOffset(); ogy = mpu.getYGyroOffset(); ogz = mpu.getZGyroOffset(); 
+      oax = mpu.getXAccelOffset() - (dax/7.8); oay = mpu.getYAccelOffset() - (day/7.8); oaz = mpu.getZAccelOffset() - (daz/7.8);
+      ogx = mpu.getXGyroOffset()  - (dgx/4.0); ogy = mpu.getYGyroOffset() - (dgy/4.0); ogz = mpu.getZGyroOffset() - (dgz/4.0); 
       Serial.println("Original offsets were OK. They are as follows:");
       Serial.print("a/g:\t");
       Serial.print(oax); Serial.print("\t\t");
@@ -108,13 +108,13 @@ void setup() {
     }    
     else
     {        
-      Serial.println("Lmao horrible offsets. Resetting...");
-      mpu.setXGyroOffset(0);
-      mpu.setYGyroOffset(0);
-      mpu.setZGyroOffset(0);
-      mpu.setXAccelOffset(0);
-      mpu.setYAccelOffset(0); 
-      mpu.setZAccelOffset(0);
+      Serial.println("Inaccurate offsets. Resetting...");
+      mpu.setXGyroOffset(-(dax/7.8));
+      mpu.setYGyroOffset(-(day/7.8));
+      mpu.setZGyroOffset(-(daz/7.8));
+      mpu.setXAccelOffset(-(dgx/4.0));
+      mpu.setYAccelOffset(-(dgy/4.0)); 
+      mpu.setZAccelOffset(-(dgz/4.0));
     }
     
     //reset differences and averages
