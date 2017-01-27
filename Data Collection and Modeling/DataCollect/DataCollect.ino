@@ -70,14 +70,16 @@ void setup() {
     */
     
     // Felix's Offsets
-
+    
+    /*
     mpu.setXGyroOffset(31.04872603);
     mpu.setYGyroOffset(-46.50591155);
     mpu.setZGyroOffset(-40.89778159);
     mpu.setXAccelOffset(-1248.217184);
     mpu.setYAccelOffset(-3157.032414);
     mpu.setZAccelOffset(1286.496383);
-   
+    */
+    
     // make sure it worked (returns 0 if so)
     if (devStatus == 0) {
         // turn on the DMP, now that it's ready
