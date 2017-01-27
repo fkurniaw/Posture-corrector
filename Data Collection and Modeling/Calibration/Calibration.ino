@@ -109,12 +109,15 @@ void setup() {
     else
     {        
       Serial.println("Inaccurate offsets. Resetting...");
-      mpu.setXGyroOffset(-(dax/7.8));
-      mpu.setYGyroOffset(-(day/7.8));
-      mpu.setZGyroOffset(-(daz/7.8));
-      mpu.setXAccelOffset(-(dgx/4.0));
-      mpu.setYAccelOffset(-(dgy/4.0)); 
-      mpu.setZAccelOffset(-(dgz/4.0));
+      oax = -(dax/7.8); oay = -(day/7.8); oaz = -(daz/7.8);
+      ogx = -(dgx/4.0); ogy = -(dgy/4.0); ogz = -(dgz/4.0);
+      
+      mpu.setXGyroOffset(ogx);
+      mpu.setYGyroOffset(ogy);
+      mpu.setZGyroOffset(ogz);
+      mpu.setXAccelOffset(oax);
+      mpu.setYAccelOffset(oay); 
+      mpu.setZAccelOffset(oaz);
     }
     
     //reset differences and averages
