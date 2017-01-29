@@ -80,9 +80,6 @@ void setup() {
     mpu.setZAccelOffset(1286.496383);
     */
     
-    mpu.setFullScaleGyroRange(MPU6050_GYRO_FS_250);
-    mpu.setFullScaleAccelRange(MPU6050_ACCEL_FS_2);
-    
     // make sure it worked (returns 0 if so)
     if (devStatus == 0) {
         // turn on the DMP, now that it's ready
@@ -90,7 +87,7 @@ void setup() {
         mpu.setDMPEnabled(true);
 
         // enable Arduino interrupt detection
-        Serial.println(F("Enabling interrupt detection (Arduino external interrupt 0)...F"));
+        Serial.println(F("Enabling interrupt detection (Arduino external interrupt 0)..."));
         attachInterrupt(digitalPinToInterrupt(INTERRUPT_PIN), dmpDataReady, RISING);
         mpuIntStatus = mpu.getIntStatus();
 
@@ -154,13 +151,13 @@ void loop() {
         mpu.dmpGetQuaternion(&q, fifoBuffer);
         mpu.dmpGetGravity(&gravity, &q);
         mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
-//<<<<<<< HEAD
+<<<<<<< HEAD
         Serial.println(ypr[1],5);
-//=======
+=======
         Serial.print(ypr[1], 5);
         Serial.print("\t");
         Serial.println(millis());
-//>>>>>>> origin/master
+>>>>>>> origin/master
 
         // blink LED to indicate activity
         blinkState = !blinkState;
