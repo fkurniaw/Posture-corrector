@@ -81,44 +81,8 @@ void setup() {
     dgy = agy/sampleSize;
     dgz = agz/sampleSize;
       
-    if(abs(dax)<1000 && abs(day)<1000 && abs(daz)<1000 && abs(dgx)<60 && abs(dgy)<60  && abs(dgz)<60 )
-    {
-      oax = mpu.getXAccelOffset() - (dax/7.8); oay = mpu.getYAccelOffset() - (day/7.8); oaz = mpu.getZAccelOffset() - (daz/7.8);
-      ogx = mpu.getXGyroOffset()  - (dgx/4.0); ogy = mpu.getYGyroOffset() - (dgy/4.0); ogz = mpu.getZGyroOffset() - (dgz/4.0); 
-      Serial.println("Original offsets were OK. They are as follows:");
-      Serial.print("a/g:\t");
-      Serial.print(oax); Serial.print("\t\t");
-      Serial.print(oay); Serial.print("\t\t");
-      Serial.print(oaz); Serial.print("\t\t");
-      Serial.print(ogx); Serial.print("\t\t");
-      Serial.print(ogy); Serial.print("\t\t");
-      Serial.println(ogz);
-      Serial.println("\n");
-      
-      Serial.println("The differences were:");
-      Serial.print("a/g:\t");
-      Serial.print(dax); Serial.print("\t\t");
-      Serial.print(day); Serial.print("\t\t");
-      Serial.print(daz); Serial.print("\t\t");
-      Serial.print(dgx); Serial.print("\t\t");
-      Serial.print(dgy); Serial.print("\t\t");
-      Serial.println(dgz);
-      Serial.println("\n");
-      delay(1000);
-    }    
-    else
-    {        
-      Serial.println("Inaccurate offsets. Resetting...");
-      oax = -(dax/7.8); oay = -(day/7.8); oaz = -(daz/7.8);
-      ogx = -(dgx/4.0); ogy = -(dgy/4.0); ogz = -(dgz/4.0);
-      
-      mpu.setXGyroOffset(ogx);
-      mpu.setYGyroOffset(ogy);
-      mpu.setZGyroOffset(ogz);
-      mpu.setXAccelOffset(oax);
-      mpu.setYAccelOffset(oay); 
-      mpu.setZAccelOffset(oaz);
-    }
+    oax = mpu.getXAccelOffset() - (dax/7.8); oay = mpu.getYAccelOffset() - (day/7.8); oaz = mpu.getZAccelOffset() - (daz/7.8);
+    ogx = mpu.getXGyroOffset()  - (dgx/4.0); ogy = mpu.getYGyroOffset() - (dgy/4.0); ogz = mpu.getZGyroOffset() - (dgz/4.0); 
     
     //reset differences and averages
     dax = 0;   day = 0;   daz = 0;
