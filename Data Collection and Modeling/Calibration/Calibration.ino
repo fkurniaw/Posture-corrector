@@ -54,42 +54,16 @@ void setup() {
     delay(500);
     // use the code below to change accel/gyro offset values; might want to change to let it run one iteration to see if current calibration is acceptable so you don't waste too much time
     counter = 0;
-    while(counter < sampleSize){
-      
-      mpu.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
-      aax = aax+ax;
-      aay = aay+ay;
-      aaz = aaz+az;
-      agx = agx+gx;
-      agy = agy+gy;
-      agz = agz+gz;
-      
-      Serial.print("a/g:\t");
-      Serial.print(ax); Serial.print("\t\t");
-      Serial.print(ay); Serial.print("\t\t");
-      Serial.print(az); Serial.print("\t\t");
-      Serial.print(gx); Serial.print("\t\t");
-      Serial.print(gy); Serial.print("\t\t");
-      Serial.println(gz);
-      counter++;
-    }
-    
-    dax = aax/sampleSize;
-    day = aay/sampleSize;
-    daz = aaz/sampleSize -16384;
-    dgx = agx/sampleSize;
-    dgy = agy/sampleSize;
-    dgz = agz/sampleSize;
-      
+   
     oax = mpu.getXAccelOffset() - (dax/7.8); oay = mpu.getYAccelOffset() - (day/7.8); oaz = mpu.getZAccelOffset() - (daz/7.8);
     ogx = mpu.getXGyroOffset()  - (dgx/4.0); ogy = mpu.getYGyroOffset() - (dgy/4.0); ogz = mpu.getZGyroOffset() - (dgz/4.0); 
     
     //reset differences and averages
-    dax = 0;   day = 0;   daz = 0;
-    dgx = 0;   dgy = 0;   dgz = 0;
-    
-    aax = 0;   aay = 0;   aaz = 0;
-    agx = 0;   agy = 0;   agz = 0;
+//    dax = 0;   day = 0;   daz = 0;
+//    dgx = 0;   dgy = 0;   dgz = 0;
+//    
+//    aax = 0;   aay = 0;   aaz = 0;
+//    agx = 0;   agy = 0;   agz = 0;
     
     // configure Arduino LED for
     pinMode(LED_PIN, OUTPUT);
