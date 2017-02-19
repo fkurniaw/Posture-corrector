@@ -157,6 +157,8 @@ void setup() {
 
     // configure LED for output
     pinMode(LED_PIN, OUTPUT);
+
+    delay(750);
 }
 
 void loop() {
