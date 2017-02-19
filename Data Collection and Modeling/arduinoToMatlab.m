@@ -2,7 +2,7 @@
 
 %set up serial communication
 delete(instrfindall)
-arduin = serial('COM7', 'BAUD', 115200);
+arduin = serial('COM5', 'BAUD', 115200);
 fclose(arduin)
 fopen(arduin)
 frequency = 20;
