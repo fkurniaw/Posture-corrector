@@ -32,12 +32,12 @@ void setup() {
     // join I2C bus (I2Cdev library doesn't do this automatically)
     #if I2CDEV_IMPLEMENTATION == I2CDEV_ARDUINO_WIRE
         Wire.begin();
-        Wire.setClock(400000); // 400kHz I2C clock. Comment this line if having compilation difficulties
+        //Wire.setClock(400000); // 400kHz I2C clock. Comment this line if having compilation difficulties
     #elif I2CDEV_IMPLEMENTATION == I2CDEV_BUILTIN_FASTWIRE
         Fastwire::setup(400, true);
     #endif
 
-    Serial.begin(115200);
+    Serial.begin(38400);
     while (!Serial); // wait for Leonardo enumeration, others continue immediately
 
     // initialize device
@@ -151,13 +151,11 @@ void loop() {
         mpu.dmpGetQuaternion(&q, fifoBuffer);
         mpu.dmpGetGravity(&gravity, &q);
         mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
-<<<<<<< HEAD
-        Serial.println(ypr[1],5);
-=======
+
         Serial.print(ypr[1], 5);
         Serial.print("\t");
         Serial.println(millis());
->>>>>>> origin/master
+
 
         // blink LED to indicate activity
         blinkState = !blinkState;
