@@ -1,6 +1,6 @@
 %upload DataCollect first
 
-%restet up serial communication
+%reset up serial communication
 delete(instrfindall)
 bluetoot = Bluetooth('HC-06',1);
 fclose(bluetoot);
