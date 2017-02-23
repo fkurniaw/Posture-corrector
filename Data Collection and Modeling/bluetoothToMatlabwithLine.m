@@ -48,7 +48,7 @@ for i=1:100000  %divide everything by frequency to get real-time plots; graph is
     
     P2 = length*[cos(angle/180*pi), sin(angle/180*pi)];
     
-    if angle>80
+    if angle>75
         posture = 'good posture';
     else if angle <75 && angle > 50
             posture = 'fair posture';
