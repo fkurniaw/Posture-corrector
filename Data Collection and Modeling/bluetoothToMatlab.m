@@ -1,10 +1,10 @@
 %upload DataCollect first
 
-%set up serial communication
+%restet up serial communication
 delete(instrfindall)
-bluetoot = bluetooth('HC-06',1);
-fclose(bluetoot)
-fopen(bluetoot)
+bluetoot = Bluetooth('HC-06',1);
+fclose(bluetoot);
+fopen(bluetoot);
 frequency = 20;
 
 for i=1:5
@@ -22,23 +22,43 @@ hold on
 xlabel('Time')
 ylabel('Angle (degrees)')
 
-for i=1/frequency:1/frequency:1000  %divide everything by frequency to get real-time plots; graph is based on displaying 100 points
+angle;
+
+for i=1:100000  %divide everything by frequency to get real-time plots; graph is based on displaying 100 points
     
-    if i>1/frequency
+    if i>1
         delete(htext);
     end % remove previous text overlay
     
     hold on,
     
-    angle = str2double(strcat(fscanf(bluetoot)))*180/pi; %concatenate char array into string, and convert string to double
-    plot(i, angle,'*')
+%     if(i<100/frequency)
+%         angle = [angle str2double(strcat(fscanf(bluetoot)))*180/pi]; %concatenate char array into string, and convert string to double
+%         plot(i, angle(length(angle)),'*')
+%     else
+%         delete(angle(1));
+%         angle = [angle(2):1:angle(length(angle)-1)];
+%         angle(100) = str2double(strcat(fscanf(bluetoot)))*180/pi; 
+%         plot(i, angle(100),'*')
+%     end        
     
-    if i<100/frequency % for displaying first 100 points
+    
+    checkForDouble = str2double(strcat(fscanf(bluetoot)))*180/pi;
+    if isnan(checkForDouble)
+        i = i-1;
+        return;
+    else
+        angle = checkForDouble;
+    end
+    
+    x = plot(i/frequency, angle, '*');
+    
+    if i<100 % for displaying first 100 points
         axis([0 100/frequency -100 100])
         htext = text(20/frequency, 100,num2str(angle),'HorizontalAlignment','center');
     else
-        axis([i-100/frequency i -100 100]) % shift graph
-        htext = text((i-80/frequency), 100, num2str(angle),'HorizontalAlignment','center');
+        axis([(i-100)/frequency i/frequency -100 100]) % shift graph
+        htext = text((i-80)/frequency, 100, num2str(angle),'HorizontalAlignment','center');
     end
     pause(0.0000000001);
 end
