@@ -2,7 +2,7 @@
 
 %set up serial communication
 delete(instrfindall)
-bluetoot = bluetooth('HC-06',1);
+bluetoot = Bluetooth('HC-06',1);
 fclose(bluetoot)
 fopen(bluetoot)
 frequency = 20;
