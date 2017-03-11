@@ -23,6 +23,10 @@
     <item android:title="Communicate">
         <menu>
             <item
+                android:id="@+id/nav_bluetooth"
+                android:icon="@drawable/ic_bluetooth_black_24dp"
+                android:title="Bluetooth" />
+            <item
                 android:id="@+id/nav_share"
                 android:icon="@drawable/ic_menu_share"
                 android:title="Share" />
