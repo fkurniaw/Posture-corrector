@@ -1,10 +1,10 @@
 %upload DataCollect first
 
 %reset up serial communication
-delete(instrfindall)
-bluetoot = Bluetooth('HC-06',1);
-fclose(bluetoot);
-fopen(bluetoot);
+% delete(instrfindall)
+% % bluetoot = Bluetooth('HC-06',1);
+% fclose(bluetoot);
+% fopen(bluetoot);
 frequency = 20;
 
 for i=1:5
@@ -13,7 +13,7 @@ end
 
 fwrite(bluetoot, 'a')
 
-for i=1:2
+for i=1:4
     fscanf(bluetoot)
 end
 
@@ -23,8 +23,6 @@ xlabel('x (cm)')
 ylabel('y (cm)')
 
 axis([-1 15 -1 15]);
-
-angle;
 
 length = 12;
 vertex = [0 0];
@@ -43,14 +41,14 @@ for i=1:100000  %divide everything by frequency to get real-time plots; graph is
         i = i-1;
         return;
     else
-        angle = checkForDouble;
+        angleBreadBoard = checkForDouble;
     end
     
-    P2 = length*[cos(angle/180*pi), sin(angle/180*pi)];
+    P2 = length*[cos(angleBreadBoard/180*pi), sin(angleBreadBoard/180*pi)];
     
-    if angle>75
+    if angleBreadBoard>75
         posture = 'good posture';
-    else if angle <75 && angle > 50
+    else if angleBreadBoard <75 && angleBreadBoard > 50
             posture = 'fair posture';
         else
             posture = 'poor posture';
@@ -58,9 +56,9 @@ for i=1:100000  %divide everything by frequency to get real-time plots; graph is
     end
     
     crank1 = line([vertex(1), P2(1)], [vertex(2), P2(2)]);    
-    htext = text(3, 14,num2str(angle),'HorizontalAlignment','center');
+    htext = text(3, 14,num2str(angleBreadBoard),'HorizontalAlignment','center');
     htext2 = text(7, 14, posture, 'HorizontalAlignment','center');
     
-    pause(0.0000001);
+    pause(0.0000000001);
     delete(crank1);
 end
