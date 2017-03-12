@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.CAMERA" />
+
     <uses-feature android:name="android.hardware.camera" />
 
     <application
@@ -26,6 +27,15 @@
         <activity
             android:name=".GalleryScreen"
             android:label="@string/title_activity_gallery_screen"
+            android:parentActivityName=".MainScreen"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="menu_test.felix.backposturecorrector.MainScreen" />
+        </activity>
+        <activity
+            android:name=".Bluetooth"
+            android:label="@string/title_activity_bluetooth"
             android:parentActivityName=".MainScreen"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
