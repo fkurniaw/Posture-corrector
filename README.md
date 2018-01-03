@@ -1,3 +1,2 @@
 "# Posture-corrector" 
-"# Attempting to change file"
-"# Link segment model simulator repository containing Arduino files, Android app, and real-time Matlab visualization code"
+"# Link segment model simulator repository containing Arduino files, Eagle schematics, Android app, and real-time Matlab visualization code"
